@@ -16,7 +16,12 @@ def upload_profile(request):
         
     else:
         form = ProfileForm()
-    return render(request, 'accounts/uploading_profile.html', {'form': form})    
+    return render(request, 'accounts/upload_profile.html', {'form': form})    
+
+def view_profile(request):
+    profiles = Profile.objects.all()
+    return render(request, 'accounts/view_profile.html', {'profiles': profiles})
+
 
 
 
