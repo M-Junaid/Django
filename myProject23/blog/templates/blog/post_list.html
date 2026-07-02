@@ -1,0 +1,44 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Django Pagination</title>
+    </head>
+    <body>
+        <h1>Blog Post</h1>
+        <ul>
+            {% for post in page_obj%}
+            {%endfor%}
+        </ul>
+    
+        {% comment %} Pagenation {% endcomment %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+            <a herf="?page=1">First</a>
+            <a herf="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            {%  if page_obj.number == num %}
+              <span class ="current" > {{ num }} </span>
+            {% else %}
+                 <a href="?page={{num}}"></a>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                 <a herf="?page={{ page_obj.next_page_number }}">Next</a>
+                 <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+        </div>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+    </body>
+    </html>
