@@ -55,67 +55,108 @@
 #         return Response(status=204)
 
     
-from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from rest_framework.views import APIView
+# from django.shortcuts import get_object_or_404
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
+
+# from .models import Student
+# from .serializers import StudentSerializer
+
+# class StudentList(APIView):
+
+#     def get(self, request):
+#         students = Student.objects.all()
+#         serializer = StudentSerializer(students, many=True)
+#         return Response(serializer.data)
+
+#     def post(self, request):
+#         serializer = StudentSerializer(data=request.data)
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=201)
+
+#         return Response(serializer.errors, status=400)
+
+
+# class StudentDetail(APIView):
+
+#     def get(self, request, id):
+#         student = get_object_or_404(Student, id=id)
+#         serializer = StudentSerializer(student)
+#         return Response(serializer.data)
+
+#     def put(self, request, id):
+#         student = get_object_or_404(Student, id=id)
+
+#         serializer = StudentSerializer(
+#             student,
+#             data=request.data
+#         )
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+
+#         return Response(serializer.errors, status=400)
+
+#     def patch(self, request, id):
+#         student = get_object_or_404(Student, id=id)
+
+#         serializer = StudentSerializer(
+#             student,
+#             data=request.data,
+#             partial=True
+#         )
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+
+#         return Response(serializer.errors, status=400)
+
+#     def delete(self, request, id):
+#         student = get_object_or_404(Student, id=id)
+#         student.delete()
+#         return Response(status=204)
+
+
+
+# from rest_framework.generics import (
+#     ListCreateAPIView,
+#     RetrieveUpdateDestroyAPIView
+# )
+
+# from .models import Student
+# from .serializers import StudentSerializer
+
+
+# class StudentList(ListCreateAPIView):
+#     queryset = Student.objects.all()
+#     serializer_class = StudentSerializer
+
+
+# class StudentDetail(RetrieveUpdateDestroyAPIView):
+#     queryset = Student.objects.all()
+#     serializer_class = StudentSerializer
+
+
+# ViewSets
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
 from .models import Student
 from .serializers import StudentSerializer
-
-class StudentList(APIView):
-
-    def get(self, request):
-        students = Student.objects.all()
-        serializer = StudentSerializer(students, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = StudentSerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-
-        return Response(serializer.errors, status=400)
+from django_filters.rest_framework import DjangoFilterBackend
 
 
-class StudentDetail(APIView):
-
-    def get(self, request, id):
-        student = get_object_or_404(Student, id=id)
-        serializer = StudentSerializer(student)
-        return Response(serializer.data)
-
-    def put(self, request, id):
-        student = get_object_or_404(Student, id=id)
-
-        serializer = StudentSerializer(
-            student,
-            data=request.data
-        )
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-
-        return Response(serializer.errors, status=400)
-
-    def patch(self, request, id):
-        student = get_object_or_404(Student, id=id)
-
-        serializer = StudentSerializer(
-            student,
-            data=request.data,
-            partial=True
-        )
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-
-        return Response(serializer.errors, status=400)
-
-    def delete(self, request, id):
-        student = get_object_or_404(Student, id=id)
-        student.delete()
-        return Response(status=204)
+class StudentViewSet(ModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    # permission_classes = [IsAuthenticated]
+    # only admin/staff users to access it
+    # permission_classes = [IsAdminUser]
+    # Anyone can access the view, even if they are not logged in.
+    # permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["city", "age"]
