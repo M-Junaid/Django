@@ -144,6 +144,7 @@
 # ViewSets
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.filters import SearchFilter
 
 from .models import Student
 from .serializers import StudentSerializer
@@ -153,10 +154,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 class StudentViewSet(ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     # only admin/staff users to access it
     # permission_classes = [IsAdminUser]
     # Anyone can access the view, even if they are not logged in.
     # permission_classes = [AllowAny]
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ["city", "age"]
+    search_fields = ["name", "email", "city"]
