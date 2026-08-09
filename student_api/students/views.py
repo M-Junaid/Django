@@ -149,12 +149,19 @@ from rest_framework.filters import SearchFilter
 from .models import Student
 from .serializers import StudentSerializer
 from django_filters.rest_framework import DjangoFilterBackend
+# IsAuthenticated checks that the user is logged in, while IsStaffOrReadOnly controls read vs. write actions.
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsStaffOrReadOnly
 
 
 class StudentViewSet(ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     permission_classes = [IsAuthenticated]
+    permission_classes = [
+        IsAuthenticated,
+        IsStaffOrReadOnly,
+    ]
     # only admin/staff users to access it
     # permission_classes = [IsAdminUser]
     # Anyone can access the view, even if they are not logged in.
