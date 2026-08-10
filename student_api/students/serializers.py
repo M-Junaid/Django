@@ -29,9 +29,11 @@ from .models import Student
 
 
 class StudentSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Student
-        fields = ["id", "name", "age", "email", "city"]
+        fields = ["id", "owner", "name", "age", "email", "city"]
+        read_only_fields = ["id", "owner"]
 
     def validate_name(self, value):
         if len(value) < 3:
@@ -39,7 +41,7 @@ class StudentSerializer(serializers.ModelSerializer):
                 "Name must be at least 3 characters."
             )
         return value
-# 
+
     def validate_city(self, value):
         if not value:
             raise serializers.ValidationError(

@@ -15,9 +15,18 @@
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
 
 
 class Student(models.Model):
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="students",
+        null=True,
+        blank=True,
+    )
+
     name = models.CharField(max_length=100)
 
     age = models.IntegerField(
