@@ -193,5 +193,11 @@ class StudentViewSet(ModelViewSet):
 
     ordering_fields = ["name", "age", "city"]
 
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Student.objects.all()
+
+        return Student.objects.filter(owner=self.request.user)
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
