@@ -21,8 +21,8 @@ from django.contrib.auth.models import User
 class Student(models.Model):
     owner = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
-        related_name="students",
+        on_delete=models.SET_NULL,
+        related_name="student_profile",
         null=True,
         blank=True,
     )
