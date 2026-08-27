@@ -33,7 +33,7 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ["id", "owner", "name", "age", "email", "city"]
-        read_only_fields = ["id", "owner"]
+        read_only_fields = ["id"]
 
     def validate_name(self, value):
         if len(value) < 3:

@@ -198,6 +198,15 @@ class StudentViewSet(ModelViewSet):
             return Student.objects.all()
 
         return Student.objects.filter(owner=self.request.user)
-# perform_create() controls who owns new students.
+
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        # Staff
+        # → serializer already has the chosen owner
+        # → serializer.save()
+        if self.request.user.is_staff:
+            serializer.save()
+        else:
+            # Normal user
+            # → ignore their owner choice
+            # → force owner = request.user
+            serializer.save(owner=self.request.user)
