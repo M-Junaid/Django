@@ -34,6 +34,14 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = ["id", "owner", "name", "age", "email", "city"]
         read_only_fields = ["id"]
+    
+    def get_extra_kwargs(self):
+        extra_kwargs = super().get_extra_kwargs()
+
+        if self.instance is not None:
+            extra_kwargs["owner"] = {"read_only": True}
+
+        return extra_kwargs
 
     def validate_name(self, value):
         if len(value) < 3:
