@@ -1,0 +1,22 @@
+<h1>My Tasks</h1>
+
+{% for task in tasks%}
+   <h2>{{ task.title}}</h2>
+   <p>{{ task.description}}</p>
+   
+   {% if task.completed %}
+    <p>Completed: Yes</p>
+   {% else %}
+    <p>Completed: No</p>
+   {% endif %}
+
+   <a href="{% url 'edit_task' task.id %}">Edit</a>
+
+   <form method = "post" action="{% url 'delete_task' task.id %}">
+      {% csrf_token %}
+
+      <button type="submit"> Delete Task</button>
+   </form>
+
+
+{% endfor %}

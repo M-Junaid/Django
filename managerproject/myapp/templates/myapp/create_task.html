@@ -1,0 +1,17 @@
+<h1> Create Task</h1>
+   {% comment %} sends the user's data to Django {% endcomment %}
+<form method="post">
+
+
+    {% comment %} Django security protection for POST forms {% endcomment %}
+    {% csrf_token %}
+
+
+    {% comment %} displays your TaskForm fields {% endcomment %}
+    {{ form.as_p }}
+     
+    
+    {% comment %} lets the user submit the form {% endcomment %}
+    <button type="submit"> Create Task</button>
+    
+</form>
