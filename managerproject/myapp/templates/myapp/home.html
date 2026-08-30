@@ -1,4 +1,8 @@
 <h1>My Tasks</h1>
+<form method="post" action="{% url 'logout'%}">
+   {%csrf_token%}
+   <button type="submit"> Logout</button>
+</form>
 
 {% for task in tasks%}
    <h2>{{ task.title}}</h2>
