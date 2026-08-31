@@ -193,12 +193,13 @@ class StudentViewSet(ModelViewSet):
 
     ordering_fields = ["name", "age", "city"]
 # get_queryset() protects what users see.
+# get_queryset() → controls what objects the user can see
     def get_queryset(self):
         if self.request.user.is_staff:
             return Student.objects.all()
 
         return Student.objects.filter(owner=self.request.user)
-
+# perform_create() → controls who owns a new object
     def perform_create(self, serializer):
         # Staff
         # → serializer already has the chosen owner

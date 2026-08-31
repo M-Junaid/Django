@@ -34,10 +34,10 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = ["id", "owner", "name", "age", "email", "city"]
         read_only_fields = ["id"]
-    
+    # get_extra_kwargs() → controls which serializer fields can change
     def get_extra_kwargs(self):
         extra_kwargs = super().get_extra_kwargs()
-
+# self.instance → tells us create vs update
         if self.instance is not None:
             extra_kwargs["owner"] = {"read_only": True}
 
